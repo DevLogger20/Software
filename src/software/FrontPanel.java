@@ -225,11 +225,7 @@ public class FrontPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
-       int resposta = JOptionPane.showConfirmDialog(null, "Você deseja sair do aplicativo?", "Confirmação", JOptionPane.YES_NO_OPTION);
-    
-    if (resposta == JOptionPane.YES_OPTION) {
-        System.exit(0);
-    }
+       
     }//GEN-LAST:event_jMenu4ActionPerformed
 
 
