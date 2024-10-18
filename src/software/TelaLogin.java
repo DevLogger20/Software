@@ -3,17 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package software;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author rafap
  */
-public class Login extends javax.swing.JPanel {
+public class TelaLogin extends javax.swing.JPanel {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public TelaLogin() {
         initComponents();
     }
 
@@ -118,7 +118,21 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+  
+    // Get the username and password from the text fields
+    String username = jTextField1.getText();
+    String password = new String(jPasswordField1.getPassword()); // jPasswordField.getPassword() returns a char array
+
+    // Check if the credentials are correct
+    if(username.equals("Admin") && password.equals("admin")) {
+        // Show success message
+        JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        // Show error message
+        JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+    }    
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

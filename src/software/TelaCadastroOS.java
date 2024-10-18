@@ -8,12 +8,12 @@ package software;
  *
  * @author rafap
  */
-public class CadastroOS extends javax.swing.JPanel {
+public class TelaCadastroOS extends javax.swing.JPanel {
 
     /**
      * Creates new form CadastroOS
      */
-    public CadastroOS() {
+    public TelaCadastroOS() {
         initComponents();
     }
 

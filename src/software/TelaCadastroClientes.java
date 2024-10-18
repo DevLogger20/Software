@@ -8,12 +8,12 @@ package software;
  *
  * @author rafap
  */
-public class CadastroClientes extends javax.swing.JPanel {
+public class TelaCadastroClientes extends javax.swing.JPanel {
 
     /**
      * Creates new form CadastroClientes
      */
-    public CadastroClientes() {
+    public TelaCadastroClientes() {
         initComponents();
     }
 

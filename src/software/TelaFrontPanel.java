@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author rafap
  */
-public class FrontPanel extends javax.swing.JPanel {
+public class TelaFrontPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form FrontPanel
      */
-    public FrontPanel() {
+    public TelaFrontPanel() {
         initComponents();
     }
 
