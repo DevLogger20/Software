@@ -17,7 +17,7 @@ public class Software {
      */
     public static void main(String[] args) {
         
-        JOptionPane.showMessageDialog(null, "O andre e gay");
+        JOptionPane.showMessageDialog(null, "O andre e gaya");
       
         
     }
