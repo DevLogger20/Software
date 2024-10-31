@@ -18,6 +18,7 @@ public class TelaFrontPanel extends javax.swing.JPanel {
      */
     public TelaFrontPanel() {
         initComponents();
+        
     }
 
     /**

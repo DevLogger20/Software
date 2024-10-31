@@ -4,7 +4,8 @@
  */
 package software;
 
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+
 
 /**
  *
@@ -17,8 +18,14 @@ public class Software {
      */
     public static void main(String[] args) {
         
-        JOptionPane.showMessageDialog(null, "O andre e gaya");
-      
+     // Create an instance of the main JFrame (your Mainscreen class)
+        Mainscreen mainScreen = new Mainscreen();
+        
+        // Set default close operation and window size
+        mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainScreen.setSize(465, 310);  // Set an appropriate size for your application
+        mainScreen.setResizable(false);  // Make the window resizable if necessary
+        mainScreen.setVisible(true);    // Show the main window
         
     }
     
