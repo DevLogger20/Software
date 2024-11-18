@@ -218,8 +218,8 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void botaoAddCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAddCliActionPerformed
-        ClienteModel cliente = new ClienteModel();
-        cliente.salvarCliente(nome, endereco, telefone, email);
+       
+        
     }//GEN-LAST:event_botaoAddCliActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -4,34 +4,27 @@
  */
 package apps.model;
 import java.sql.*;
-
+import apps.model.Conector;
 /**
  *
  * @author rafap
  */
 public class UsuarioModel {
     
-    private Connection connection;
-public UsuarioModel() {
-try {
-connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/PostgreSQL 17",
-"postgres", "123");
-} catch (SQLException e) {
-System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
-}
-}
-public boolean verificarCredenciais(String username, String senha) {
-String sql = "SELECT * FROM usuarios WHERE username = ? AND senha = ?";
-try {
-PreparedStatement stmt = connection.prepareStatement(sql);
-stmt.setString(1, username);
-stmt.setString(2, senha);
-ResultSet rs = stmt.executeQuery();
-return rs.next(); // Retorna true se o usuário for encontrado
-} catch (SQLException e) {
-System.out.println("Erro ao verificar credenciais: " + e.getMessage());
-return false;
-}
+    Connection conector= Conector.conector();
+
+public boolean verificarCredenciais(String usuario, String senha) {
+    String sql = "SELECT * FROM logins WHERE usuario = ? AND senha = ?";
+    try {
+        PreparedStatement stmt = conector.prepareStatement(sql);
+        stmt.setString(1, usuario);
+        stmt.setString(2, senha);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next(); // Retorna true se o usuário for encontrado
+    } catch (SQLException e) {
+        System.out.println("Erro ao verificar credenciais: " + e.getMessage());
+        return false;
+    }
 }
  
 }
