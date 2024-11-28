@@ -4,10 +4,29 @@
  */
 package apps.controller;
 
-/**
- *
- * @author rafap
- */
+import apps.model.ClienteModel;
+
 public class ClienteController {
+    
+    private ClienteModel model;
+
+    public ClienteController() {
+        this.model = new ClienteModel();
+    }
+
+    public void salvarCliente(String nome, String endereco, String telefone, String email) {
+        // Validate mandatory fields
+        if (nome.isEmpty() || endereco.isEmpty() || telefone.isEmpty() || email.isEmpty()) {
+            System.out.println("Todos os campos obrigatórios devem ser preenchidos.");
+            return; // Exit if validation fails
+        }
+
+        // Call the model to save the client
+        model.salvarCliente(nome, endereco, telefone, email);
+        System.out.println("Cliente salvo com sucesso.");
+    }
+    
+    
+
     
 }

@@ -6,10 +6,6 @@ package apps.controller;
 
 import apps.model.OrdemServicoModel;
 
-/**
- 
- * @author rafap
- */
 public class OrdemServicoController {
     
     private OrdemServicoModel model;
@@ -18,10 +14,16 @@ public class OrdemServicoController {
         this.model = new OrdemServicoModel();
     }
 
-    public void salvarOrdemServico(int idCliente, String equipamento, String defeito, String servico, String tecnico, String status, double valor) {
+    public void salvarOrdemServico(int idCliente, String numeroOrdemServico, String dataOrdemServico, String equipamento, String defeito, String servico, String tecnico, String status, double valor) {
         // Validate mandatory fields
-        if (equipamento.isEmpty() || defeito.isEmpty() || servico.isEmpty() || tecnico.isEmpty() || status.isEmpty()) {
+        if (equipamento.isEmpty() || defeito.isEmpty() || tecnico.isEmpty() || status.isEmpty()) {
             System.out.println("Todos os campos obrigatórios devem ser preenchidos.");
+            return; // Exit if validation fails
+        }
+
+        // Validate the order number and date fields
+        if (numeroOrdemServico.isEmpty() || dataOrdemServico.isEmpty()) {
+            System.out.println("Número da ordem de serviço e data devem ser preenchidos.");
             return; // Exit if validation fails
         }
 
@@ -32,7 +34,7 @@ public class OrdemServicoController {
         }
 
         // Call the model to save the order
-        model.salvarOrdemServico(idCliente, equipamento, defeito, servico, tecnico, status, valor);
+        model.salvarOrdemServico(idCliente, numeroOrdemServico, dataOrdemServico, equipamento, defeito, servico, tecnico, status, valor);
         System.out.println("Ordem de serviço salva com sucesso.");
     }
 
@@ -47,5 +49,4 @@ public class OrdemServicoController {
         }
         return false; // Status is invalid
     }
-    
 }

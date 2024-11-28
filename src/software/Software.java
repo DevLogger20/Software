@@ -27,6 +27,8 @@ public class Software {
         mainScreen.setResizable(false);  // Make the window resizable if necessary
         mainScreen.setVisible(true);    // Show the main window
         
+        
+        
     }
     
 }
