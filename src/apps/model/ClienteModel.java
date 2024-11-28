@@ -42,26 +42,7 @@ public class ClienteModel {
     }
     
     
-     public void salvarCliente(String nome, String endereco, String telefone, String email) {
-        String sql = "INSERT INTO clientes (nome, endereco, telefone, email) VALUES (?, ?, ?, ?)";
-        try {
-            // Ensure that the connection is established before preparing the statement
-            if (connection != null) {
-                PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setString(1, nome);
-                stmt.setString(2, endereco);
-                stmt.setString(3, telefone);
-                stmt.setString(4, email);
-                stmt.executeUpdate();
-                System.out.println("Cliente salvo com sucesso.");
-            } else {
-                System.out.println("Conexão não estabelecida. Não foi possível salvar o cliente.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao salvar cliente: " + e.getMessage());
-        }
-      
-    }
+    
  
     
     public List<Cliente> getAllClientes() {
