@@ -47,7 +47,7 @@ public class ClienteModel {
     
     public List<Cliente> getAllClientes() {
     List<Cliente> clientes = new ArrayList<>();
-    String sql = "SELECT id_cliente, nome, endereco, telefone, email FROM clientes"; // Adjusted column names
+    String sql = "SELECT id_cliente, nome, endereco, telefone, email FROM clientes ORDER BY id_cliente"; // Ensure ordering by ID
     
     try {
         if (connection != null) {
@@ -55,7 +55,7 @@ public class ClienteModel {
             ResultSet rs = stmt.executeQuery(sql);
             
             while (rs.next()) {
-                int id = rs.getInt("id_cliente"); // Use the correct column name
+                int id = rs.getInt("id_cliente"); 
                 String nome = rs.getString("nome");
                 String endereco = rs.getString("endereco");
                 String telefone = rs.getString("telefone");
@@ -69,7 +69,7 @@ public class ClienteModel {
     }
     
     return clientes;
-    }
+}
     
     public class Cliente {
     private int id;
@@ -116,6 +116,22 @@ public class ClienteModel {
     }
 }
     
+    public void excluirCliente(int idCliente) {
+    String sql = "DELETE FROM clientes WHERE id_cliente = ?";
     
+    try {
+        if (connection != null) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, idCliente); // Set the ID of the client to delete
+            
+            stmt.executeUpdate();
+            System.out.println("Cliente excluído com sucesso.");
+        } else {
+            System.out.println("Conexão não estabelecida.");
+        }
+    } catch (SQLException e) {
+        System.out.println("Erro ao excluir cliente: " + e.getMessage());
+    }
+}
     
 }

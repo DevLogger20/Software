@@ -46,7 +46,7 @@ public class TelaCadastroOS extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         procurarCliente = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        ClientesOS = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         IdCliente = new javax.swing.JTextField();
@@ -149,7 +149,7 @@ public class TelaCadastroOS extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(ClientesOS);
 
         jLabel10.setText("Procurar Cliente");
 
@@ -470,6 +470,7 @@ public class TelaCadastroOS extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ClientesOS;
     private javax.swing.JTextField IdCliente;
     private javax.swing.JButton adicionar;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -495,7 +496,6 @@ public class TelaCadastroOS extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField nOS;
     private javax.swing.JTextField procurarCliente;
     private javax.swing.JTextField servico;

@@ -27,6 +27,13 @@ public class ClienteController {
     }
     
     
+    public void editarCliente(int idCliente, String nome, String endereco, String telefone, String email) {
+    model.editarCliente(idCliente, nome, endereco, telefone, email);
+    }
+    
+    public void excluirCliente(int idCliente) {
+    model.excluirCliente(idCliente);
+}
 
     
 }

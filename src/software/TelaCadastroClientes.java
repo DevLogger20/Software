@@ -31,21 +31,21 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
 
     private void loadClientes() {
         List<Cliente> clientes = clienteModel.getAllClientes();
-        
-        // Create a table model and set it to jTable1
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Endereco", "Telefone", "Email"}, 0);
-        
-        for (Cliente cliente : clientes) {
-            tableModel.addRow(new Object[]{
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getEndereco(),
-                cliente.getTelefone(),
-                cliente.getEmail()
-            });
-        }
-        
-        jTable1.setModel(tableModel); // Set the model to jTable1
+    
+    // Create a table model and set it to jTable1
+    DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Endereco", "Telefone", "Email"}, 0);
+    
+    for (Cliente cliente : clientes) {
+        tableModel.addRow(new Object[]{
+            cliente.getId(),
+            cliente.getNome(),
+            cliente.getEndereco(),
+            cliente.getTelefone(),
+            cliente.getEmail()
+        });
+    }
+    
+    jTable1.setModel(tableModel); // Set the model to jTable1
     }
     
     /**
@@ -155,6 +155,11 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
 
         ExcluirCliente.setText("Excluir");
         ExcluirCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        ExcluirCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcluirClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -267,6 +272,8 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Cliente adicionado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         
         clearFields();
+        loadClientes();
+        selectLastAddedClient();
         
     }//GEN-LAST:event_adicionarActionPerformed
 
@@ -279,10 +286,73 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
     
     private void EditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarClienteActionPerformed
         
-        
+    // Verificar se o campo Id_Cliente está vazio
+    String idClienteText = Id_Cliente.getText();
+    if (idClienteText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "O ID do cliente não pode estar vazio.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return; // Sai do método se o ID estiver vazio
+    }
+    
+    // Coletar dados dos campos
+    int idCliente;
+    try {
+        idCliente = Integer.parseInt(idClienteText); // Tenta converter o texto para inteiro
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID do cliente inválido. Por favor, insira um número válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return; // Sai do método se a conversão falhar
+    }
+
+    String nome = NomeCliente.getText();
+    String endereco = EnderecoCliente.getText();
+    String telefone = TelefoneCliente.getText();
+    String email = EmailCliente.getText();
+
+    // Validar campos obrigatórios
+    if (nome.isEmpty() || telefone.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Nome e Telefone são campos obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Chamar o método de edição no controlador usando a instância
+    controller.editarCliente(idCliente, nome, endereco, telefone, email);
+    
+    // Mensagem de sucesso
+    JOptionPane.showMessageDialog(this, "Cliente atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    
+    // Limpar campos e recarregar a tabela
+    clearFields();
+    
+    // Recarregar a lista de clientes para refletir as mudanças
+    loadClientes(); 
+    
+    // Selecionar a linha do cliente editado após recarregar a tabela
+    selectClientRowById(idCliente);
         
     }//GEN-LAST:event_EditarClienteActionPerformed
 
+    private void selectClientRowById(int id) {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if ((int) model.getValueAt(i, 0) == id) { // Assuming ID is in the first column (index 0)
+            jTable1.setRowSelectionInterval(i, i); // Selects the row
+            jTable1.scrollRectToVisible(jTable1.getCellRect(i, 0, true)); // Scrolls to make it visible
+            break;
+        }
+    }
+}
+    
+    private void selectLastAddedClient() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    
+    // Check if there are any rows in the table
+    if (model.getRowCount() > 0) {
+        int lastRowIndex = model.getRowCount() - 1; // Get the index of the last row
+        jTable1.setRowSelectionInterval(lastRowIndex, lastRowIndex); // Selects the last row
+        jTable1.scrollRectToVisible(jTable1.getCellRect(lastRowIndex, 0, true)); // Scrolls to make it visible
+    }
+}
+    
     private void NomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_NomeClienteActionPerformed
@@ -309,6 +379,41 @@ public class TelaCadastroClientes extends javax.swing.JPanel {
     }
        
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void ExcluirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirClienteActionPerformed
+        // Verificar se o campo Id_Cliente está vazio
+    String idClienteText = Id_Cliente.getText();
+    if (idClienteText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "O ID do cliente não pode estar vazio.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return; // Sai do método se o ID estiver vazio
+    }
+    
+    int idCliente;
+    try {
+        idCliente = Integer.parseInt(idClienteText); // Tenta converter o texto para inteiro
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID do cliente inválido. Por favor, insira um número válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return; // Sai do método se a conversão falhar
+    }
+
+    // Confirmar exclusão
+    int confirm = JOptionPane.showConfirmDialog(this, 
+        "Tem certeza que deseja excluir o cliente com ID " + idCliente + "?",
+        "Confirmação de Exclusão", JOptionPane.YES_NO_OPTION);
+    
+    if (confirm == JOptionPane.YES_OPTION) {
+        // Chamar o método de exclusão no controlador
+        controller.excluirCliente(idCliente);
+        
+        // Mensagem de sucesso
+        JOptionPane.showMessageDialog(this, "Cliente excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Limpar campos e recarregar a tabela
+        clearFields();
+        loadClientes(); // Recarregar a lista de clientes para refletir as mudanças
+    }
+        
+    }//GEN-LAST:event_ExcluirClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
