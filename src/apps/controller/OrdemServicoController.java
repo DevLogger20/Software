@@ -49,4 +49,9 @@ public class OrdemServicoController {
         }
         return false; // Status is invalid
     }
+    
+    public String getNextNumeroOrdemServico() {
+        return model.getNextNumeroOrdemServico(); // Call model method to get next order number
+    }
+    
 }

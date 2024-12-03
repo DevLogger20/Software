@@ -9,12 +9,21 @@ import javax.swing.JOptionPane;
 import apps.model.OrdemServicoModel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import apps.model.ClienteModel.Cliente;
+import apps.model.ClienteModel;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter; 
+import java.awt.event.MouseEvent;   
+import apps.controller.OrdemServicoController;
 /**
  *
  * @author rafap
  */
 public class TelaCadastroOS extends javax.swing.JPanel {
     public OrdemServicoController controller;
+    private ClienteModel clienteModel;
 
     /**
      * Creates new form CadastroOS
@@ -22,8 +31,27 @@ public class TelaCadastroOS extends javax.swing.JPanel {
     public TelaCadastroOS() {
         initComponents();
         controller = new OrdemServicoController();
-        nOS.setText(generateNumeroOrdemServico()); // Automatically set nOS
-        data.setText(getCurrentDate()); // Set current date as default
+        clienteModel = new ClienteModel(); 
+        loadClientesOS(); 
+        nOS.setText(controller.getNextNumeroOrdemServico()); // Use controller to get next order number
+        data.setText(getCurrentDate()); 
+
+        // Populate status JComboBox
+        String[] statuses = { "Aguardando Aprovação", "Aguardando Peças", "Aguardando Retirada", "Na Bancada para Serviço", "Retirado pelo Cliente" };
+        for (String status : statuses) {
+            this.status.addItem(status);
+        }
+
+        // Add MouseListener to ClientesOS table
+        ClientesOS.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                int selectedRow = ClientesOS.getSelectedRow();
+                if (selectedRow != -1) { 
+                    int idCliente = (int) ClientesOS.getValueAt(selectedRow, 0); 
+                    IdCliente.setText(String.valueOf(idCliente)); 
+                }
+            }
+        });
     }
 
     /**
@@ -149,6 +177,11 @@ public class TelaCadastroOS extends javax.swing.JPanel {
             }
         });
 
+        ClientesOS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ClientesOSMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(ClientesOS);
 
         jLabel10.setText("Procurar Cliente");
@@ -202,7 +235,6 @@ public class TelaCadastroOS extends javax.swing.JPanel {
 
         jLabel1.setText("* Status");
 
-        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "                                                        ", "Aguardando pecas", "Aguardando retirada", "Na bancada", "Retirado" }));
         status.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,30 +447,32 @@ public class TelaCadastroOS extends javax.swing.JPanel {
     }//GEN-LAST:event_imprimirActionPerformed
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        
        try {
-            // Retrieve input values from the form fields
-            int idCliente = Integer.parseInt(IdCliente.getText());
-            String numeroOrdemServico = nOS.getText(); // Get numeroOrdemServico from nOS field
-            String dataOrdemServico = data.getText(); // Get data from data field
-            String equipamentoText = equipamento.getText();
-            String defeitoText = defeito.getText();
-            String servicoText = servico.getText();
-            String tecnicoText = tecnico.getText();
-            String statusText = (String) status.getSelectedItem(); // Get selected status from JComboBox
-            double valor = Double.parseDouble(valorTotal.getText());
+        // Retrieve input values from the form fields
+        int idCliente = Integer.parseInt(IdCliente.getText());
+        String numeroOrdemServico = nOS.getText(); 
+        String dataOrdemServico = data.getText(); 
+        String equipamentoText = equipamento.getText();
+        String defeitoText = defeito.getText();
+        String servicoText = servico.getText();
+        String tecnicoText = tecnico.getText();
+        
+        // Get selected status from JComboBox
+        String statusText = (String) status.getSelectedItem(); 
 
-            // Call the controller to save the order
-            controller.salvarOrdemServico(idCliente, numeroOrdemServico, dataOrdemServico, equipamentoText, defeitoText, servicoText, tecnicoText, statusText, valor);
-            
-            // Optionally show a confirmation message
-            JOptionPane.showMessageDialog(this, "Ordem de Serviço adicionada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Clear input fields after adding
-            clearFields();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        double valor = Double.parseDouble(valorTotal.getText());
+
+        // Call the controller to save the order
+        controller.salvarOrdemServico(idCliente, numeroOrdemServico, dataOrdemServico, equipamentoText, defeitoText, servicoText, tecnicoText, statusText, valor);
+        
+        // Optionally show a confirmation message
+        JOptionPane.showMessageDialog(this, "Ordem de Serviço adicionada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Clear input fields after adding
+        clearFields();
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos.", "Erro", JOptionPane.ERROR_MESSAGE);
+    }
        
     }//GEN-LAST:event_adicionarActionPerformed
 
@@ -451,6 +485,22 @@ public class TelaCadastroOS extends javax.swing.JPanel {
         valorTotal.setText("");
         status.setSelectedIndex(0); // Reset status selection
     }
+    
+    private void loadClientesOS() {
+    // Assuming you have a method in your ClienteModel to get all clients
+    List<Cliente> clientes = clienteModel.getAllClientes(); // You may need to create this method if it doesn't exist
+
+    DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"ID Cliente", "Nome"}, 0);
+    
+    for (Cliente cliente : clientes) {
+        tableModel.addRow(new Object[]{
+            cliente.getId(),
+            cliente.getNome()
+        });
+    }
+    
+    ClientesOS.setModel(tableModel); // Assuming ClientesOS is your JTable for displaying clients
+}
     
     private void visualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizarClienteActionPerformed
         // TODO add your handling code here:
@@ -468,6 +518,11 @@ public class TelaCadastroOS extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
+    private void ClientesOSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesOSMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ClientesOSMouseClicked
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ClientesOS;
